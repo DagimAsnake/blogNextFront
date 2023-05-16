@@ -56,7 +56,7 @@ const Navbar = () => {
                     </div>
                     <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                         <div className="flex-shrink-0">
-                            <Link href="/" className="text-white font-bold text-xl">My App</Link>
+                            <Link href="/" className="text-white font-bold text-xl">My Blog</Link>
                         </div>
                         <div className="hidden sm:block sm:ml-6">
                             <div className="flex space-x-4">
@@ -90,7 +90,6 @@ const Navbar = () => {
                         <Link onClick={() => setNav(!nav)} href="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Login</Link>
                         <Link onClick={() => setNav(!nav)} href="/logout" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logout</Link>
                         <Link onClick={() => setNav(!nav)} href="/signup" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Signup</Link>
-                        <Link onClick={() => setNav(!nav)} href="/contact" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact</Link>
 
 
                     </div>
