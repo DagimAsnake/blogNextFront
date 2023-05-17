@@ -3,7 +3,8 @@ import React from 'react';
 import moment from 'moment';
 
 export async function getStaticProps() {
-  const res = await fetch('http://localhost:8000/blog')
+  // http://localhost:8000/blog 
+  const res = await fetch('https://blognextbackend.onrender.com/blog')
   const data = await res.json()
   const datas = data.msg
 

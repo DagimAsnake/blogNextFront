@@ -17,8 +17,8 @@ const index = () => {
       topic: topic,
       content: content
     }
-
-    fetch('http://localhost:8000/blog/add', {
+    // http://localhost:8000/blog/add 
+    fetch('https://blognextbackend.onrender.com/blog/add', {
       method: 'POST',
       body: JSON.stringify(formData),
       headers: {
