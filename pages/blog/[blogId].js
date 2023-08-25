@@ -9,7 +9,7 @@ export async function getServerSideProps(context) {
 
     const { params } = context
   
-    const res = await fetch(`http://localhost:8000/blog/${params.blogId}`)
+    const res = await fetch(`https://blognextbackend.onrender.com/blog/${params.blogId}`)
     const data = await res.json()
     const datas = data.msg
   

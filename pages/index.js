@@ -4,8 +4,8 @@ import moment from 'moment';
 import Link from 'next/link';
 
 export async function  getServerSideProps() {
-  
-  const res = await fetch('http://localhost:8000/blog ')
+  // http://localhost:8000
+  const res = await fetch('https://blognextbackend.onrender.com/blog ')
   const data = await res.json()
   const datas = data.msg
 
