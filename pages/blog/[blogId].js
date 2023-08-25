@@ -1,6 +1,8 @@
 import React from 'react'
 import moment from 'moment';
 import Head from 'next/head';
+import Link from 'next/link';
+
 import BlogDeleteButton from '@/components/BlogDeleteButton';
 
 export async function getServerSideProps(context) {
@@ -48,13 +50,14 @@ const BlogDetails = ({datas}) => {
         <p className="text-gray-700 leading-relaxed">{datas.content}</p>
         </div>
 
-        <div className="px-6 py-4 flex justify-end">
-       
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                </svg>
-            </button>
+        <div className="px-6 py-4 flex justify-end"> 
+            <Link href={`/blog/editblog/${datas._id}`}>
+                <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                    </svg>
+                </button>
+            </Link>
         
             <BlogDeleteButton blogId={datas._id} />
         

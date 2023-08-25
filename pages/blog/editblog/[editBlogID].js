@@ -1,70 +1,85 @@
+import { useRouter } from 'next/router'
 import Head from 'next/head';
-import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
-const Index = () => {
-  const router = useRouter();
+export async function getServerSideProps(context) {
+  const { params } = context
 
-  const [title, setTitle] = useState('')
-  const [topic, setTopic] = useState('')
-  const [content, setContent] = useState('')
-  const [errors, setErrors] = useState({})
+  const res = await fetch(`http://localhost:8000/blog/${params.editBlogID}`)
+  const data = await res.json()
+  const datas = data.msg
 
-  const validateForm = () => {
-    let errors = {}
-    let isValid = true
-
-    if (!title.trim()) {
-      errors.title = 'Title is required'
-      isValid = false
-    }
-
-    if (!topic.trim()) {
-      errors.topic = 'Topic is required'
-      isValid = false
-    }
-
-    if (!content.trim()) {
-      errors.content = 'Content is required'
-      isValid = false
-    }
-
-    setErrors(errors)
-
-    return isValid
+  return {
+    props: { datas }  
   }
 
-  const onFormSubmission = async (e) => {
-    e.preventDefault()
+}
 
-    if (validateForm()) {
-      const formData = {
-        title: title,
-        topic: topic,
-        content: content
-      }
-      // https://blognextbackend.onrender.com/blog/add
-     await fetch('http://localhost:8000/blog/add', {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
+
+const EditBlog = ({datas}) => {
+    const router = useRouter()
+   
+    const [title, setTitle] = useState(datas.title)
+    const [topic, setTopic] = useState(datas.topic)
+    const [content, setContent] = useState(datas.content)
+    const [errors, setErrors] = useState({})
+
+    const validateForm = () => {
+        let errors = {}
+        let isValid = true
+    
+        if (!title.trim()) {
+          errors.title = 'Title is required'
+          isValid = false
         }
-      })
+    
+        if (!topic.trim()) {
+          errors.topic = 'Topic is required'
+          isValid = false
+        }
+    
+        if (!content.trim()) {
+          errors.content = 'Content is required'
+          isValid = false
+        }
+    
+        setErrors(errors)
+    
+        return isValid
+      }
 
-      router.push('/');
-    } else {
-      console.log('Form is invalid')
-    }
-  }
+      const onFormSubmission = async (e) => {
+        e.preventDefault()
+    
+        if (validateForm()) {
+          const formData = {
+            title: title,
+            topic: topic,
+            content: content
+          }
+
+          await fetch(`http://localhost:8000/blog/update/${datas._id}`, {
+            method: 'PUT',
+            body: JSON.stringify(formData),
+            headers: {
+              'Content-Type': 'application/json' 
+            }
+          })
+    
+          router.push('/');
+        } else {
+          console.log('Form is invalid')
+        }
+      }
+    
 
   return (
     <>
       <Head>
-        <title>Add Blog</title>
+        <title>Edit Blog</title>
       </Head>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-24">
-        <h1 className="text-4xl font-bold mb-8">Add a New Blog Post</h1>
+        <h1 className="text-4xl font-bold mb-8">Edit Blog Post</h1>
         <form className="max-w-lg mx-auto" onSubmit={onFormSubmission}>
           <div className="mb-4">
             <label htmlFor="title" className="block text-gray-700 font-bold mb-2">Title</label>
@@ -83,7 +98,7 @@ const Index = () => {
           </div>
           <div className="flex justify-end">
             <button type="submit" className="bg-black text-white hover:bg-white hover:text-black hover:border-black font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:shadow-md">
-              Submit
+              Update
             </button>
           </div>
         </form>
@@ -92,4 +107,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default EditBlog

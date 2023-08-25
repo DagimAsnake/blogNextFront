@@ -3,9 +3,8 @@ import React from 'react';
 import moment from 'moment';
 import Link from 'next/link';
 
-export async function getStaticProps() {
-  // https://blognextbackend.onrender.com/blog
-  // 
+export async function  getServerSideProps() {
+  
   const res = await fetch('http://localhost:8000/blog ')
   const data = await res.json()
   const datas = data.msg
@@ -15,7 +14,7 @@ export async function getStaticProps() {
   }
 }
 
-const Home = ({ datas }) => {
+const Home = ({ datas }) => { 
   return (
     <>
       <Head>
