@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
 import Link from "next/link"
+// import { useSession } from 'next-auth/client';
 
 const Navbar = () => {
     const [nav, setNav] = useState(false)
+    // const [session, loading] = useSession();
+    
     return (
         <nav className="bg-gray-800 fixed w-full z-10">
             <div className="max-w-full sm:px-6 ">
@@ -69,7 +72,7 @@ const Navbar = () => {
                         <div className="sm:ml-auto">
                             <div className="hidden sm:block sm:ml-6">
                                 <div className="flex space-x-4">
-                                    <Link href="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</Link>
+                                    <Link href="/auth/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</Link>
                                     <Link href="/logout" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</Link>
                                     <Link href="/auth/signup" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Signup</Link>
                                 </div>

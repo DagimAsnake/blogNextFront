@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import React from 'react';
 import moment from 'moment';
 import Link from 'next/link';
 
@@ -7,7 +6,7 @@ export async function  getServerSideProps() {
   //    https://blognextbackend.onrender.com
   const res = await fetch('http://localhost:8000/blog ')
   const data = await res.json()
-  const datas = data.msg
+  const datas = data.blogs
 
   return {
     props: { datas },
@@ -24,11 +23,11 @@ const Home = ({ datas }) => {
         <div className="container px-5 py-24 mx-auto">
           <div className="-my-8 divide-y-2 divide-gray-100">
             {datas.map(item => {
-              const formattedDate = moment(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
+             const formattedDate = moment(item.createdAt).format('MMMM Do YYYY, h:mm:ss a');
               return (
                 <div key={item._id} className="py-8 flex flex-wrap md:flex-nowrap">
                   <div className="md:w-64 md:mb-0 mb-6 flex-shrink-0 flex flex-col">
-                    <span className="font-semibold title-font text-gray-700">firstName lastName</span>
+                    <span className="font-semibold title-font text-gray-700">{item.user.firstName} {item.user.lastName}</span>
                     <span className="mt-1 text-gray-500 text-sm">{formattedDate}</span>
                   </div>
                   <div className="md:flex-grow">
@@ -40,11 +39,11 @@ const Home = ({ datas }) => {
                           <path d="M5 12h14"></path>
                           <path d="M12 5l7 7-7 7"></path>
                         </svg>
-                      
+ 
                     </Link>
                   </div>
                 </div>
-              );
+              )
             })}
           </div>
         </div>

@@ -43,14 +43,21 @@ const Index = () => {
         topic: topic,
         content: content
       }
-     await fetch('http://localhost:8000/blog/add', {
+      
+    const session = localStorage.getItem('session');
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${session}`,
+    };
+
+    const res = await fetch('http://localhost:8000/blog/add', {
         method: 'POST',
         body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: headers
       })
-
+    const data = await res.json()
+    console.log(data)
       router.push('/');
     } else {
       console.log('Form is invalid')

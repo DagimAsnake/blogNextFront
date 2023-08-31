@@ -58,12 +58,17 @@ const EditBlog = ({datas}) => {
             content: content
           }
 
+          const session = localStorage.getItem('session');
+
+          const headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session}`,
+          };
+
           await fetch(`http://localhost:8000/blog/update/${datas._id}`, {
             method: 'PUT',
             body: JSON.stringify(formData),
-            headers: {
-              'Content-Type': 'application/json' 
-            }
+            headers: headers
           })
     
           router.push('/');

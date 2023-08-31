@@ -4,7 +4,14 @@ export default function BlogDeleteButton({ blogId }) {
   const router = useRouter();
 
   async function handleDelete() {
-        const res = await fetch(`http://localhost:8000/blog/delete/${blogId}`, { method: 'DELETE' })
+      const session = localStorage.getItem('session');
+
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session}`,
+      };
+
+        const res = await fetch(`http://localhost:8000/blog/delete/${blogId}`, { method: 'DELETE', headers: headers })
         const data = await res.json()
         const datas = data.msg
         router.push('/')
