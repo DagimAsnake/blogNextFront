@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import AuthContext from "../../components/store/authContext";
 
 const Signup = () => {
+  const AuthCtx = useContext(AuthContext);
     const router = useRouter();
 
   const [firstName, setFirstName] = useState('');
@@ -56,6 +58,7 @@ const Signup = () => {
       })
       const data = await res.json()
       if (res.status === 200) {
+        AuthCtx.login(data.token);
         router.push('/');
       } else if (res.status === 400) {
         setErrors(data.errors);

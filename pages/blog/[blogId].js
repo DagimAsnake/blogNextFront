@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import moment from 'moment';
 import Head from 'next/head';
 import Link from 'next/link';
+import AuthContext from "../../components/store/authContext";
 
 import BlogDeleteButton from '@/components/BlogDeleteButton';
 
@@ -20,6 +21,8 @@ export async function getServerSideProps(context) {
   }
 
 const BlogDetails = ({datas}) => {
+  const AuthCtx = useContext(AuthContext);
+  const isLoggedIn = AuthCtx.isLoggedIn
     const formattedDate = moment(datas.createdAt).format('MMMM Do YYYY, h:mm:ss a');
   return (
     <>
@@ -50,6 +53,7 @@ const BlogDetails = ({datas}) => {
         <p className="text-gray-700 leading-relaxed">{datas.content}</p>
         </div>
 
+    {isLoggedIn && 
         <div className="px-6 py-4 flex justify-end"> 
             <Link href={`/blog/editblog/${datas._id}`}>
                 <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
@@ -60,8 +64,8 @@ const BlogDetails = ({datas}) => {
             </Link>
         
             <BlogDeleteButton blogId={datas._id} />
-        
         </div>
+    }
   
     </div>
   

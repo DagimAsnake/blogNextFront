@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import AuthContext from "../../components/store/authContext";
 
 const Login = () => {
+    const AuthCtx = useContext(AuthContext);
     const router = useRouter();
 
   const [email, setEmail] = useState('');
@@ -13,7 +15,6 @@ const Login = () => {
   const handleLogin = async(e) => {
     e.preventDefault();
 
-    // Validate form fields
     const errors = {};
     if (email.trim() === '') {
       errors.email = 'Email is required';
@@ -27,8 +28,6 @@ const Login = () => {
       return;
     }
 
-    // Perform Login logic here
-    // You can send the form data to the server or perform any other actions you need
     const formData = {
         email: email,
         password: password
@@ -43,7 +42,8 @@ const Login = () => {
       const data = await res.json()
       if (res.status === 200) {
         console.log(data)
-        localStorage.setItem('session', data.token);
+        // localStorage.setItem('session', data.token);
+        AuthCtx.login(data.token);
         router.push('/');
       } else if (res.status === 401) {
         setFailed(data.error);

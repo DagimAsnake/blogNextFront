@@ -1,11 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState , useEffect, useContext} from 'react'
 import Link from "next/link"
-// import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
+import AuthContext from "../components/store/authContext";
 
 const Navbar = () => {
+    const AuthCtx = useContext(AuthContext);
+    const router = useRouter();
+
     const [nav, setNav] = useState(false)
-    // const [session, loading] = useSession();
-    
+
+    const isLoggedIn = AuthCtx.isLoggedIn
+
+  const logoutHandler = () => {
+    // localStorage.removeItem('session');
+    AuthCtx.logout();
+    router.push('/');
+  }
     return (
         <nav className="bg-gray-800 fixed w-full z-10">
             <div className="max-w-full sm:px-6 ">
@@ -64,7 +74,7 @@ const Navbar = () => {
                         <div className="hidden sm:block sm:ml-6">
                             <div className="flex space-x-4">
                                 <Link href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</Link>
-                                <Link href="/blog" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Add Blog</Link>
+                                {isLoggedIn && <Link href="/blog" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Add Blog</Link>}
                                 <Link href="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</Link>
                                 <Link href="/contact" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</Link>
                             </div>
@@ -72,9 +82,13 @@ const Navbar = () => {
                         <div className="sm:ml-auto">
                             <div className="hidden sm:block sm:ml-6">
                                 <div className="flex space-x-4">
+                                  {!isLoggedIn &&  
+                                    ( <>
                                     <Link href="/auth/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</Link>
-                                    <Link href="/logout" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</Link>
                                     <Link href="/auth/signup" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Signup</Link>
+                                    </>)
+                                    }
+                                    {isLoggedIn && <Link href="/" onClick={logoutHandler} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</Link>}
                                 </div>
                             </div>
                         </div>
