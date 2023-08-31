@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 export async function getServerSideProps(context) {
   const { params } = context
 
-  const res = await fetch(`https://blognextbackend.onrender.com/blog/${params.editBlogID}`)
+  const res = await fetch(`http://localhost:8000/blog/${params.editBlogID}`)
   const data = await res.json()
   const datas = data.msg
 
@@ -58,7 +58,7 @@ const EditBlog = ({datas}) => {
             content: content
           }
 
-          await fetch(`https://blognextbackend.onrender.com/blog/update/${datas._id}`, {
+          await fetch(`http://localhost:8000/blog/update/${datas._id}`, {
             method: 'PUT',
             body: JSON.stringify(formData),
             headers: {

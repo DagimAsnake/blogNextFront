@@ -43,7 +43,7 @@ const Index = () => {
         topic: topic,
         content: content
       }
-     await fetch('https://blognextbackend.onrender.com/blog/add', {
+     await fetch('http://localhost:8000/blog/add', {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {

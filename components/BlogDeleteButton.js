@@ -4,7 +4,7 @@ export default function BlogDeleteButton({ blogId }) {
   const router = useRouter();
 
   async function handleDelete() {
-        const res = await fetch(`https://blognextbackend.onrender.com/blog/delete/${blogId}`, { method: 'DELETE' })
+        const res = await fetch(`http://localhost:8000/blog/delete/${blogId}`, { method: 'DELETE' })
         const data = await res.json()
         const datas = data.msg
         router.push('/')
