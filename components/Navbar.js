@@ -11,6 +11,25 @@ const Navbar = () => {
 
     const isLoggedIn = AuthCtx.isLoggedIn
 
+    const [data, setData] = useState()
+
+    useEffect(() => {
+      const getUserBlogs = async () => {
+          const res = await fetch('http://localhost:8000/auth/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${AuthCtx.token}`,
+            },
+        });
+        console.log(res)
+        const data = await res.json();
+        console.log(data)
+        setData(data.payload?.username)
+    }
+    getUserBlogs()
+      }, [AuthCtx.token, isLoggedIn])
+
   const logoutHandler = () => {
     // localStorage.removeItem('session');
     AuthCtx.logout();
@@ -74,7 +93,12 @@ const Navbar = () => {
                         <div className="hidden sm:block sm:ml-6">
                             <div className="flex space-x-4">
                                 <Link href="/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</Link>
-                                {isLoggedIn && <Link href="/blog" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Add Blog</Link>}
+                                {isLoggedIn && 
+                                    (<>
+                                    <Link href="/blog" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Add Blog</Link>
+                                    <Link href="/blog/myblog" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">My Blogs</Link>
+                                    </>)
+                                }
                                 <Link href="/about" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">About</Link>
                                 <Link href="/contact" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Contact</Link>
                             </div>
@@ -88,7 +112,11 @@ const Navbar = () => {
                                     <Link href="/auth/signup" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Signup</Link>
                                     </>)
                                     }
-                                    {isLoggedIn && <Link href="/" onClick={logoutHandler} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</Link>}
+                                    {isLoggedIn && 
+                                    (<>
+                                     <p className="text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Hi, {data}</p>
+                                    <Link href="/" onClick={logoutHandler} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</Link>
+                                    </>)}
                                 </div>
                             </div>
                         </div>

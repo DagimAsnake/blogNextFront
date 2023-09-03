@@ -46,6 +46,7 @@ const Index = () => {
       
     const session = localStorage.getItem('session');
 
+
     const headers = {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${session}`,
