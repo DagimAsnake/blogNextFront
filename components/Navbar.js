@@ -2,6 +2,7 @@ import React, { useState , useEffect, useContext} from 'react'
 import Link from "next/link"
 import { useRouter } from 'next/router';
 import AuthContext from "../components/store/authContext";
+import DropdownMenu from './DropdownMenu';
 
 const Navbar = () => {
     const AuthCtx = useContext(AuthContext);
@@ -35,6 +36,7 @@ const Navbar = () => {
     AuthCtx.logout();
     router.push('/');
   }
+
     return (
         <nav className="bg-gray-800 fixed w-full z-10">
             <div className="max-w-full sm:px-6 ">
@@ -112,11 +114,7 @@ const Navbar = () => {
                                     <Link href="/auth/signup" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Signup</Link>
                                     </>)
                                     }
-                                    {isLoggedIn && 
-                                    (<>
-                                     <p className="text-gray-300 px-3 py-2 rounded-md text-sm font-medium">Hi, {data}</p>
-                                    <Link href="/" onClick={logoutHandler} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</Link>
-                                    </>)}
+                                    {isLoggedIn && <DropdownMenu logoutHandler={logoutHandler} /> }
                                 </div>
                             </div>
                         </div>
