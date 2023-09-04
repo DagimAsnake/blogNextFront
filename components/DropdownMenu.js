@@ -48,7 +48,7 @@ function DropdownMenu({logoutHandler}) {
                   className={`${
                     active ? 'bg-gray-100' : ''
                   } rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200`}
-                  // onClick={handleMenuClose}
+                  onClick={handleMenuClose}
                 >
                 {link.label}
                 </div>
