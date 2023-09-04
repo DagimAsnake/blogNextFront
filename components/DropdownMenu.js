@@ -41,18 +41,20 @@ function DropdownMenu({logoutHandler}) {
           onMouseLeave={handleMenuClose}
         >
         {links.map((link) => (
-          <Menu.Item key={link.href} >
-            {({ active }) => (
-              <div
-                className={`${
-                  active ? 'bg-gray-100' : ''
-                } rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200`}
-                onClick={handleMenuClose}
-              >
-              <Link href={link.href}>{link.label}</Link>  
-              </div>
-            )}
-          </Menu.Item>
+          <Link href={link.href}  key={link.href}>
+            <Menu.Item >
+              {({ active }) => (
+                <div
+                  className={`${
+                    active ? 'bg-gray-100' : ''
+                  } rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200`}
+                  // onClick={handleMenuClose}
+                >
+                {link.label}
+                </div>
+              )}
+            </Menu.Item>
+          </Link>
         ))}
           <Menu.Item>
             {({ active }) => (
