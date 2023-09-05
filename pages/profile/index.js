@@ -1,13 +1,35 @@
 import React, { useState, useContext, useEffect } from "react";
 import Head from 'next/head';
 import Link from 'next/link';
+import AuthContext from "../../components/store/authContext";
+
 
 const profile = () => {
+    const AuthCtx = useContext(AuthContext);
 
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    const getUserProfile = async () => {
+        const res = await fetch('http://localhost:8000/profile', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${AuthCtx.token}`,
+          },
+      });
+      const data = await res.json();
+      const datas = data.msg;
+      setEmail(datas.email)
+      setFirstname(datas.firstName)
+      setLastname(datas.lastName)
+      setUsername(datas.username)
+  }
+  getUserProfile()
+    }, [AuthCtx])
 
   const submitHandler = (e) => {
     e.preventDefault()
