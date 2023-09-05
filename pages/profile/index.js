@@ -2,15 +2,17 @@ import React, { useState, useContext, useEffect } from "react";
 import Head from 'next/head';
 import Link from 'next/link';
 import AuthContext from "../../components/store/authContext";
-
+import { useRouter } from 'next/router';
 
 const profile = () => {
     const AuthCtx = useContext(AuthContext);
+    const router = useRouter();
 
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
+  const [errors, setErrors] = useState({})
 
   useEffect(() => {
     const getUserProfile = async () => {
@@ -31,10 +33,64 @@ const profile = () => {
   getUserProfile()
     }, [AuthCtx])
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    console.log(username, firstname, lastname, email)
-  }
+    const validateForm = () => {
+        let errors = {}
+        let isValid = true
+    
+        if (!firstname.trim()) {
+          errors.firstname = 'FirstName is required'
+          isValid = false
+        }
+    
+        if (!lastname.trim()) {
+          errors.lastname = 'LastName is required'
+          isValid = false
+        }
+    
+        if (!username.trim()) {
+          errors.username = 'Username is required'
+          isValid = false
+        }
+
+        if (!email.trim()) {
+            errors.email = 'Email is required'
+            isValid = false
+          }
+    
+        setErrors(errors)
+    
+        return isValid
+      }
+
+      const onFormSubmission = async (e) => {
+        e.preventDefault()
+    
+        if (validateForm()) {
+          const formData = {
+            username: username,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+          }
+
+          const session = localStorage.getItem('session');
+
+          const headers = {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${session}`,
+          };
+
+          await fetch(`http://localhost:8000/profile/edit`, {
+            method: 'PUT',
+            body: JSON.stringify(formData),
+            headers: headers
+          })
+    
+          router.push('/');
+        } else {
+          console.log('Form is invalid')
+        }
+      }
 
   return (
     <>
@@ -49,7 +105,7 @@ const profile = () => {
                         <div className="text-lg text-center text-black font-bold">
                             Your Profile
                         </div>
-                        <form onSubmit={submitHandler}>
+                        <form onSubmit={onFormSubmission}>
                             <div className="text-xl font-bold text-black my-3">
                                 <h4 className="mb-2">First Name</h4>
                                 <div className="relative">
@@ -77,6 +133,7 @@ const profile = () => {
                                         className="w-full pl-14 bg-white border border-blue-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                                     />
                                 </div>
+                                {errors.firstname && <p className="text-red-500 text-xs italic">{errors.firstname}</p>}
                             </div>
 
                             <div className="text-xl font-bold text-black my-3">
@@ -106,6 +163,7 @@ const profile = () => {
                                         className="w-full pl-14 bg-white border border-blue-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                                     />
                                 </div>
+                                {errors.lastname && <p className="text-red-500 text-xs italic">{errors.lastname}</p>}
                             </div>
 
                             <div className="text-xl font-bold text-black my-3">
@@ -135,6 +193,7 @@ const profile = () => {
                                         className="w-full pl-14 bg-white border border-blue-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                                     />
                                 </div>
+                                {errors.username && <p className="text-red-500 text-xs italic">{errors.username}</p>}
                             </div>
 
                             <div className="text-xl font-bold text-black my-3">
@@ -164,6 +223,7 @@ const profile = () => {
                                         className="w-full pl-14 bg-white border border-blue-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
                                     />
                                 </div>
+                                {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>}
                             </div>
 
                             <div className="w-44 items-center text-center text-black rounded-lg hover:bg-black my-5 hover:text-white p-2 text-xl font-bold cursor-pointer tracking-wider border">
